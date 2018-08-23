@@ -19,6 +19,7 @@ async def on_message(message):
         if message.author == client.user: #if the bot itself sent the message, ignore it and return
                 return
                 
+        #Basic operations (addition, subtraction, multiplication, division, exponentation)
         if message.content.upper().startswith('ADD'):
                 args = message.content.split(" ")
                 if len(args) > 1:
@@ -111,6 +112,7 @@ async def on_message(message):
                 else:
                         await client.send_message(message.channel, "Please provide numbers, for example: power 2 3")
 
+        #Factorials
         if message.content.upper().startswith('FACTORIAL'):
                 args = message.content.split(" ")
                 if len(args) == 1:
@@ -129,4 +131,97 @@ async def on_message(message):
                         else:
                                 await client.send_message(message.channel, "Number must not be negative, for example: factorial 5")
 
-client.run("INSERTTOKENHERE")
+        #Trigonometry <3
+        if message.content.upper().startswith('SIN'):
+                args = message.content.split(" ")
+                if len(args) == 1:
+                        await client.send_message(message.channel, "Please provide one number (in radians), for example: sin 3.14")
+                elif len(args) > 2:
+                        await client.send_message(message.channel, "You must only provide one number (in radians), for example: sin 3.14")
+                else:
+                        try:
+                                x = float(args[1])
+                        except ValueError:
+                                await client.send_message(message.channel, "Input value must be a number (in radians), for example: sin 3.14")
+                                return
+                        
+                        result = math.sin(x)
+                        await client.send_message(message.channel, result)
+
+        if message.content.upper().startswith('COS'):
+                args = message.content.split(" ")
+                if len(args) == 1:
+                        await client.send_message(message.channel, "Please provide one number (in radians), for example: cos -6.28")
+                elif len(args) > 2:
+                        await client.send_message(message.channel, "You must only provide one number (in radians), for example: cos -6.28")
+                else:
+                        try:
+                                x = float(args[1])
+                        except ValueError:
+                                await client.send_message(message.channel, "Input value must be a number (in radians), for example: cos -6.28")
+                                return
+                        
+                        result = math.cos(x)
+                        await client.send_message(message.channel, result)
+
+        if message.content.upper().startswith('TAN'):
+                args = message.content.split(" ")
+                if len(args) == 1:
+                        await client.send_message(message.channel, "Please provide one number (in radians), for example: tan 12")
+                elif len(args) > 2:
+                        await client.send_message(message.channel, "You must only provide one number (in radians), for example: tan 12")
+                else:
+                        try:
+                                x = float(args[1])
+                        except ValueError:
+                                await client.send_message(message.channel, "Input value must be a number (in radians), for example: tan 12")
+                                return
+                        
+                        result = math.tan(x)
+                        await client.send_message(message.channel, result)
+
+        #Logarithms
+        if message.content.upper().startswith('LOG'):
+                args = message.content.split(" ")
+                if len(args) == 1:
+                        await client.send_message(message.channel, "Please provide one positive number and a base (not needed, if you don't provide a base, default is e), for example: log 1 10")
+                elif len(args) == 2:
+                        try:
+                                x = float(args[1])
+                        except ValueError:
+                                if args[1].upper() == "E":
+                                        x = math.e
+                                else:
+                                        await client.send_message(message.channel, "Input value must be a positive number, for example: log 3")
+                                        return
+                        if x > 0:
+                                result = math.log(x)
+                                await client.send_message(message.channel, result)
+                        else:
+                                await client.send_message(message.channel, "Input value must be a positive number, for example: log 3")
+                elif len(args) == 3:
+                        try:
+                                x = float(args[1])
+                        except ValueError:
+                                if args[1].upper() == "E":
+                                        x = math.e
+                                else:
+                                        await client.send_message(message.channel, "Input value must be two positive numbers, for example: log 2 8")
+                                        return
+                        try:
+                                base = float(args[2])
+                        except ValueError:
+                                if args[2].upper() == "E":
+                                        base = math.e
+                                else:
+                                        await client.send_message(message.channel, "Input value must be two positive numbers, for example: log 2 8")
+                                        return
+                        
+                        if x > 0 and base > 0:
+                                result = math.log(x,base)
+                                await client.send_message(message.channel, result)
+                        else:
+                                await client.send_message(message.channel, "Input value must be two positive numbers, for example: log 2 8")
+                else:
+                        await client.send_message(message.channel, "You must only provide one or two numbers (second number used as base), for example: log 1 10")
+
