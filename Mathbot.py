@@ -225,3 +225,48 @@ async def on_message(message):
                 else:
                         await client.send_message(message.channel, "You must only provide one or two numbers (second number used as base), for example: log 1 10")
 
+        #Fibonacci
+        if message.content.upper().startswith('FIBONACCI'):
+                args = message.content.split(" ")
+                if len(args) == 1:
+                        await client.send_message(message.channel, "Please provide one non-negative integer, for example: Fibonacci 4")
+                elif len(args) > 2:
+                        await client.send_message(message.channel, "Please provide only one non-negative integer, for example: Fibonacci 4")
+                else:
+                        try:
+                                x = int(args[1])
+                        except ValueError:
+                                await client.send_message(message.channel, "Input value must be a non-negative integer, for example: Fibonacci 4")
+                                return
+                        
+                        if x >= 0:
+                                result = fibonacci(x)
+                                await client.send_message(message.channel, result)
+                        else:
+                                await client.send_message(message.channel, "Input value must be a non-negative integer, for example: Fibonacci 4")
+
+
+
+
+def fibonacci(x): #returns a STRING
+        if x == 0:
+                sequence = "0"
+        elif x == 1:
+                sequence = "0, 1"
+        else:
+                a = 0
+                b = 1
+                result = 1
+                sequence = "0, 1, "
+
+                for i in range(2,x+1):
+                        result = a + b
+                        a = b
+                        b = result
+                        sequence += str(result)
+                        if(i < x):
+                                sequence += ", "
+
+        return sequence
+
+client.run("INSERT TOKEN HERE")
